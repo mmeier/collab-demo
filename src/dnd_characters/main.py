@@ -7,17 +7,17 @@ from dnd_characters.storage import CharacterStorage
 app = FastAPI(title="D&D Character API")
 storage = CharacterStorage()
 
-
+# The character model is defined as a pydantic model.
 class CharacterCreate(BaseModel):
     character_name: str
     player_name: str
 
-
+# The update model is defined as a pydantic model.
 class CharacterUpdate(BaseModel):
     character_name: str
     player_name: str
 
-
+# The POST endpoint for creating a character.
 @app.post("/characters", response_model=Character, status_code=status.HTTP_201_CREATED)
 def create_character(character_data: CharacterCreate):
     character = Character(
@@ -26,7 +26,7 @@ def create_character(character_data: CharacterCreate):
     )
     return storage.create(character)
 
-
+# The GET endpoint for listing all characters.
 @app.get("/characters", response_model=list[Character])
 def list_characters():
     return storage.list_all()
